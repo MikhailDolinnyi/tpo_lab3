@@ -1,66 +1,42 @@
 package ru.traphouse.selenium;
 
-import java.time.Duration;
+import java.util.List;
 
-import io.github.cdimascio.dotenv.Dotenv;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class TestCase9 {
-    private WebDriver driver;
-    JavascriptExecutor js;
-
-    @BeforeEach
-    public void setUp() {
-        driver = new FirefoxDriver();
-        js = (JavascriptExecutor) driver;
-    }
-
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
+public class TestCase9 extends BaseTest {
 
     @Test
-    public void authorizationTest() {
-        Dotenv dotenv = Dotenv.load();
+    public void testCase9() {
+        navigateTo(BASE_URL + "/");
 
-        String email = dotenv.get("TEST_EMAIL");
-        String password = dotenv.get("TEST_PASSWORD");
+        driver.findElement(By.xpath("(//a[contains(text(),'Log in')])[2]")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='email']")));
 
-        driver.get("https://stackoverflow.com/questions");
+        List<WebElement> emailField = driver.findElements(By.xpath("//input[@id='email']"));
+        assertFalse(emailField.isEmpty());
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        List<WebElement> passwordField = driver.findElements(By.xpath("//input[@id='password']"));
+        assertFalse(passwordField.isEmpty());
 
-        // ждем кнопку Log in и кликаем
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("(//a[contains(text(),\'Log in\')])[2]")
-        )).click();
+        List<WebElement> oauthButtons = driver.findElements(By.xpath("//div[@id='openid-buttons']"));
+        assertFalse(oauthButtons.isEmpty());
 
-        // ждем поле email
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\'email\']")));
+        List<WebElement> googleBtn = driver.findElements(
+                By.xpath("//div[@id='openid-buttons']//button[@data-provider='google']"));
+        assertFalse(googleBtn.isEmpty());
 
-        assertNotNull(email);
-        assertNotNull(password);
+        List<WebElement> githubBtn = driver.findElements(
+                By.xpath("//div[@id='openid-buttons']//button[@data-provider='github']"));
+        assertFalse(githubBtn.isEmpty());
 
-        driver.findElement(By.xpath("//input[@id=\'email\']")).sendKeys(email);
-        driver.findElement(By.xpath("//input[@id=\'password\']")).sendKeys(password);
-        driver.findElement(By.xpath("//button[@id=\'submit-button\']")).click();
-
-        WebElement avatar = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@id=\'user-profile-button\']")
-        ));
-
-        avatar.click();
+        List<WebElement> facebookBtn = driver.findElements(
+                By.xpath("//div[@id='openid-buttons']//button[@data-provider='facebook']"));
+        assertFalse(facebookBtn.isEmpty());
     }
 }

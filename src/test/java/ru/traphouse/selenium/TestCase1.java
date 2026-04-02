@@ -1,53 +1,39 @@
 package ru.traphouse.selenium;
 
-import java.time.Duration;
+import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TestCase1 {
-    private WebDriver driver;
-    JavascriptExecutor js;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-    @BeforeEach
-    public void setUp() {
-        driver = new FirefoxDriver();
-        js = (JavascriptExecutor) driver;
-    }
-
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
+public class TestCase1 extends BaseTest {
 
     @Test
     public void testCase1() {
-        driver.get("https://stackoverflow.com/questions");
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Newest\')]"))).click();
-        driver.findElement(By.xpath("//span[contains(.,\'Newest\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'Active\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'Bountied\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Unanswered\')]")).click();
-        driver.findElement(By.xpath("//button[contains(.,\'More\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Frequent\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'More\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Score\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'More\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Trending\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'More\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Week\')]")).click();
-        driver.findElement(By.xpath("//span[contains(.,\'More\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Month\')]")).click();
-        driver.findElement(By.xpath("//a[contains(.,\'Ask Question\')]")).click();
+        navigateTo(BASE_URL + "/questions");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//h1[contains(.,'Newest Questions')]")));
+
+        List<WebElement> newest = driver.findElements(By.xpath("//span[contains(.,'Newest')]"));
+        assertFalse(newest.isEmpty());
+
+        List<WebElement> active = driver.findElements(By.xpath("//span[contains(.,'Active')]"));
+        assertFalse(active.isEmpty());
+
+        List<WebElement> bountied = driver.findElements(By.xpath("//span[contains(.,'Bountied')]"));
+        assertFalse(bountied.isEmpty());
+
+        List<WebElement> unanswered = driver.findElements(By.xpath("//span[contains(.,'Unanswered')]"));
+        assertFalse(unanswered.isEmpty());
+
+        List<WebElement> askQuestion = driver.findElements(By.xpath("//a[contains(.,'Ask Question')]"));
+        assertFalse(askQuestion.isEmpty());
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[contains(@class,'s-post-summary')]")));
     }
 }
-

@@ -1,0 +1,25 @@
+package ru.traphouse.selenium;
+
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+public class TestCase2 extends BaseTest {
+
+    @Test
+    public void testCase2() {
+        navigateTo(BASE_URL + "/questions");
+
+        driver.findElement(By.xpath("//a[contains(.,'Active')]")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[contains(.,'Active') and contains(@class,'is-selected')]")));
+
+        driver.findElement(By.xpath("//a[contains(.,'Unanswered')]")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[contains(.,'Unanswered') and contains(@class,'is-selected')]")));
+
+        driver.findElement(By.xpath("//a[contains(.,'Bountied')]")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[contains(.,'Bountied') and contains(@class,'is-selected')]")));
+    }
+}
