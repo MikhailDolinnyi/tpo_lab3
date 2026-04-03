@@ -11,19 +11,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestCase9 extends BaseTest {
 
+    // TS-09: открываем страницу входа и проверяем наличие полей и OAuth-кнопок
     @Test
     public void testCase9() {
         navigateTo(BASE_URL + "/");
 
+        // берём вторую ссылку Log in — первая в мобильном меню
         driver.findElement(By.xpath("(//a[contains(text(),'Log in')])[2]")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='email']")));
 
+        // поля ввода
         List<WebElement> emailField = driver.findElements(By.xpath("//input[@id='email']"));
         assertFalse(emailField.isEmpty());
 
         List<WebElement> passwordField = driver.findElements(By.xpath("//input[@id='password']"));
         assertFalse(passwordField.isEmpty());
 
+        // блок с OAuth-кнопками
         List<WebElement> oauthButtons = driver.findElements(By.xpath("//div[@id='openid-buttons']"));
         assertFalse(oauthButtons.isEmpty());
 

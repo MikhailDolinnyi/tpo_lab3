@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TestCase4 extends BaseTest {
 
+    // TS-04: вводим поисковый запрос и проверяем, что результаты появились
     @Test
     public void testCase4() {
         navigateTo(BASE_URL + "/questions");
@@ -15,6 +16,7 @@ public class TestCase4 extends BaseTest {
         searchInput.sendKeys("selenium webdriver");
         searchInput.submit();
 
+        // ждём хоть один результат в списке
         wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//div[contains(@class,'s-post-summary')]")));
     }

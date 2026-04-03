@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestCase21 extends BaseTest {
 
+    // TS-21: регистрируем нового пользователя и проверяем что система просит подтвердить email
     @Test
     public void testCase21() {
         Dotenv dotenv = Dotenv.load();
@@ -23,6 +24,7 @@ public class TestCase21 extends BaseTest {
 
         driver.findElement(By.xpath("(//a[contains(text(),'Sign up')])[2]")).click();
 
+        // заполняем форму регистрации
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//input[@id='signup-modal-email']")));
         driver.findElement(By.xpath("//input[@id='signup-modal-email']")).sendKeys(email);
@@ -30,6 +32,7 @@ public class TestCase21 extends BaseTest {
         wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//form[@id='signup-modal-signup-form']/div[3]/button"))).click();
 
+        // успешная регистрация → просят подтвердить email
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//h2[contains(.,'Check your email')]")));
 

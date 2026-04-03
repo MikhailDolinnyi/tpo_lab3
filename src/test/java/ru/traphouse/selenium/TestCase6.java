@@ -11,18 +11,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestCase6 extends BaseTest {
 
+    // TS-06: открываем страницу тегов и проверяем что список и сортировки отображаются
     @Test
     public void testCase6() {
         navigateTo(BASE_URL + "/tags");
 
+        // ждём заголовок страницы
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(.,'Tags')]")));
 
+        // список тегов не пустой
         List<WebElement> postTags = driver.findElements(By.xpath("//a[contains(@class,'post-tag')]"));
         assertFalse(postTags.isEmpty());
 
+        // на странице больше одного тега
         List<WebElement> secondTag = driver.findElements(By.xpath("(//a[contains(@class,'post-tag')])[2]"));
         assertFalse(secondTag.isEmpty());
 
+        // варианты сортировки на месте
         List<WebElement> popularSort = driver.findElements(By.xpath("//a[contains(.,'Popular')]"));
         assertFalse(popularSort.isEmpty());
 

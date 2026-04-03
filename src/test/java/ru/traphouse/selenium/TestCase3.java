@@ -11,15 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestCase3 extends BaseTest {
 
+    // TS-03: открываем панель фильтров и проверяем, что все параметры на месте
     @Test
     public void testCase3() {
         navigateTo(BASE_URL + "/questions");
 
+        // кликаем Filter и ждём, пока панель раскроется
         wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[contains(.,'Filter')]"))).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//button[contains(.,'Apply filter')]")));
 
+        // все эти лейблы должны присутствовать в панели фильтрации
         String[] filterLabels = {
             "No answers",
             "No upvoted or accepted answers",

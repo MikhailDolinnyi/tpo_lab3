@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestCase20 extends BaseTest {
 
+    // TS-20a: несуществующий email — система должна сообщить что пользователь не найден
     @Test
     public void testCase20_wrongEmail() {
         AuthUtils.loginWithCredentials(driver, "nonexistent@example.com", "somepassword123");
@@ -20,6 +21,7 @@ public class TestCase20 extends BaseTest {
                 By.xpath("//p[contains(.,'No user found with matching email')]")).isEmpty());
     }
 
+    // TS-20b: верный email, неверный пароль — должна быть ошибка о неверных данных
     @Test
     public void testCase20_wrongPassword() {
         String email = Dotenv.load().get("TEST_EMAIL");

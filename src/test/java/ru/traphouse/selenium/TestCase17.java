@@ -9,24 +9,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestCase17 extends BaseTest {
 
+    // TS-17: голосуем за комментарий и проверяем что кнопка меняет состояние
     @Test
     public void testCase17() {
         AuthUtils.login(driver);
 
-        driver.findElement(By.xpath("//a[@id='user-profile-button']/div/img")).click();
+        // используем конкретный вопрос — там гарантированно есть комментарий
+        driver.get(BASE_URL + "/staging-ground/79919244");
 
-        WebElement navItem = driver.findElement(By.xpath("//nav/ul/li[3]/a/span"));
-        js.executeScript("arguments[0].click();", navItem);
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("(//div[contains(@class,'s-post-summary')]//h3/a)[1]")));
-        driver.findElement(By.xpath("(//div[contains(@class,'s-post-summary')]//h3/a)[1]")).click();
-
+        // кнопка апвоута у комментария может быть вне viewport — прокручиваем
         WebElement upvoteBtn = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//button[@data-threadable-comment-target='upvoteArrow']")));
         js.executeScript("arguments[0].scrollIntoView({block: 'center'});", upvoteBtn);
         js.executeScript("arguments[0].click();", upvoteBtn);
 
+        // после клика aria-label кнопки должен смениться на "You've voted..."
         wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//button[@aria-label=\"You've voted for this as a useful comment\"]")));
 
